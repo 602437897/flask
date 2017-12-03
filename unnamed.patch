@@ -1,0 +1,108 @@
+Index: www/templates/base.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- www/templates/base.html	(date 1512224339825)
++++ www/templates/base.html	(date 1512224339825)
+@@ -0,0 +1,13 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    {% block head %}
++    <title>{% block titile %}{% endblock %} - My Application</title>
++    {% endblock %}
++</head>
++<body>
++    {% block body %}
++    {% end block %}
++</body>
++</html>
+\ No newline at end of file
+Index: www/templates/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- www/templates/index.html	(date 1512221552032)
++++ www/templates/index.html	(date 1512221552032)
+@@ -0,0 +1,10 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>INDEX</title>
++</head>
++<body>
++    <h1>Hello, Wolrd!</h1>
++</body>
++</html>
+\ No newline at end of file
+Index: www/templates/test.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- www/templates/test.html	(date 1512221572317)
++++ www/templates/test.html	(date 1512221572317)
+@@ -0,0 +1,10 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>TEST</title>
++</head>
++<body>
++    <h1>Hello {{name}}</h1>
++</body>
++</html>
+\ No newline at end of file
+Index: www/hello.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- www/hello.py	(revision 4b2202a539f6eabe3680185496f7f3d51bddec44)
++++ www/hello.py	(date 1512224749198)
+@@ -1,35 +1,17 @@
+ from flask import Flask
+-from flask import make_response
+-from flask import abort
++from flask import render_template
+ app = Flask(__name__)
+ 
+ 
+ @app.route('/')
+ def index():
+-    return '<h1>Hello World!</h1>'
++    return render_template('index.html')
+ 
+ 
+ @app.route('/test/<name>')
+ def test(name):
+-    return '<h1>Hello {}!</h1>'.format(name)
+-
+-
+-@app.route('/test1')
+-def test1():
+-    return 'Bad Request',400
+-
+-
+-@app.route('/cookie')
+-def cookies():
+-    response = make_response('<h1>this document is carried by cookie</h1>')
+-    response.set_cookie('answer', 'this document is carried by cookie')
+-    return response
+-
+-
+-@app.route('/test_abort')
+-def test_abort():
+-    abort(404)
++    return render_template('test.html', name=name)
+ 
+ 
+ if __name__ == '__main__':
+-    app.run(debug=True)
+\ No newline at end of file
++    app.run(debug=True)
