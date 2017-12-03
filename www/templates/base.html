@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     {% block head %}
+        {{ super() }}
+        <link rel="shortcut icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ url_for('static',filename='favicon.ico') }}"  type="image/x-icon">
     <title>{% block titile %}{% endblock %} - My Application</title>
     {% endblock %}
 </head>
 <body>
     {% block body %}
-    {% end block %}
+    {% endblock %}
 </body>
 </html>
