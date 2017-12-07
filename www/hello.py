@@ -6,14 +6,27 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
+
+manager = Manager(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+manager.add_command('data', MigrateCommand)
+
+
+@app.shell_context_processor
+def shell_make_context():
+    return dict(app=app, db=db, User=User, Role=Role)
 
 
 @app.errorhandler(404)
@@ -79,4 +92,5 @@ class User(db.Model):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    manager.run()
+    #app.run(debug=True)
